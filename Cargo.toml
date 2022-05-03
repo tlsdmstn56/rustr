@@ -1,0 +1,17 @@
+[package]
+name = "rustr"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "mylib"
+path = "src/lib/mylib/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+
+[build-dependencies]
+cc = { version = "1.0", features = ["parallel"]}
