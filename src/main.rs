@@ -1,4 +1,5 @@
 use std::env;
+use rustr::unix::system::initialze_r;
 
 extern "C" { 
     // int Rf_initialize_R(int ac, char **av); /* in ../unix/system.c */
