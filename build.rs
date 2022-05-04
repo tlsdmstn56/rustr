@@ -52,8 +52,6 @@ fn get_r_src_url() -> String {
     format!("https://cran.r-project.org/src/base/R-4/R-{}.tar.gz", line.trim())
 }
 
-static SED_CMD: &str = "sed -i 's/HAVE_VISIBILITY_ATTRIBUTE 0/HAVE_VISIBILITY_ATTRIBUTE 1/' ./configure";
-
 fn main() {
     let env_vars = vec![
         "OUT_DIR",
@@ -82,10 +80,6 @@ fn main() {
 
     let libs = [
         "R",
-        "nmath",
-        "unix",
-        "appl",
-        "tre",
     ];
 
     for lib in libs {
@@ -93,38 +87,17 @@ fn main() {
     }
 
 
-    // download
+    // download & extract
     let r_src_url = get_r_src_url();
     println!("url {}", r_src_url);
     let r_src_tgz = download(r_src_url.as_str());
     let r_src_tgz = GzDecoder::new(r_src_tgz.as_slice());
     Archive::new(r_src_tgz).unpack(&out_dir).unwrap();
 
-    // modify visibility
-    Command::new("sh")
-                .arg("-c")
-                .arg(SED_CMD) /* not compile x */
-                .current_dir(&r_src_path)
-                .output()
-                .expect("failed to modify configure script");
-
     // run configure
     let output = Command::new("sh")
                 .arg("-c")
-                .arg("./configure --with-x=no") /* not compile x */
-                .current_dir(&r_src_path)
-                .output()
-                .expect("failed to configure R build");
-
-    if !output.status.success() {
-        let s = String::from_utf8(output.stderr).expect("Found invalid UTF-8");
-        panic!("Configure failed\n{}", s);
-    }
-
-    // run configure
-    let output = Command::new("sh")
-                .arg("-c")
-                .arg("./configure --with-x=no") /* not compile x */
+                .arg("./configure --with-x=no --enable-R-shlib") /* not compile x */
                 .current_dir(&r_src_path)
                 .output()
                 .expect("failed to configure R build");
@@ -140,6 +113,7 @@ fn main() {
                 .arg("-c")
                 .arg(make_cmd)
                 .current_dir(&r_src_path)
+                .env("CFLAGS", "-g -O0")
                 .output()
                 .expect("failed to build R");
     if !output.status.success() {
