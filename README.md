@@ -2,6 +2,12 @@
 
 R rust port
 
+## Goal
+
+* Modernize C based R code base using Rust
+* Reimplement `src/main`
+* Do not touch performance-critical code such as math functions written in Fortran. 
+
 ## Status
 
 * Only front-end is ported in Rust.

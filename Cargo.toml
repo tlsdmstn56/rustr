@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 build = "build.rs"
 
+[[bin]]
+name = "rustr"
+path = "src/rustr_main.rs"
+
 [dependencies]
 
 [build-dependencies]
@@ -11,3 +15,4 @@ glob = "0.3"
 curl = "0.4"
 flate2 = "1.0"
 tar = "0.4"
+bindgen = "0.59.2"
