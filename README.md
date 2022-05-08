@@ -24,3 +24,10 @@ echo "4.2.0" > R_VERSION
 # build
 cargo build
 ```
+
+## Run
+
+```bash
+# Run wrapper script to setup environment and run rustr
+./script/run_r.sh
+```
