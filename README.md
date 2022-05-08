@@ -2,6 +2,8 @@
 
 R rust port
 
+[![Rust](https://github.com/tlsdmstn56/rustr/actions/workflows/rust.yml/badge.svg?branch=main)](https://github.com/tlsdmstn56/rustr/actions/workflows/rust.yml)
+
 ## Goal
 
 * Modernize C based R code base using Rust
